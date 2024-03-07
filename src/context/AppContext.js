@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from 'react';
+import Budget from "../components/Budget";
 
 // 5. The reducer - this is used to update the state, based on the action
 export const AppReducer = (state, action) => {
@@ -78,7 +79,7 @@ export const AppReducer = (state, action) => {
 
 // 1. Sets the initial state when the app loads
 const initialState = {
-    budget: 2000,
+    budget: 0,
     expenses: [
         { id: "Marketing", name: 'Marketing', cost: 200 },
         { id: "Finance", name: 'Finance', cost: 100 },
