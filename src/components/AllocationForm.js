@@ -1,16 +1,28 @@
 import React, {useContext, useState} from 'react';
 import {AppContext} from '../context/AppContext';
 
+
 // Here, you are adding form tags, adding a label/input for name, cost and action field, and adding values for various departments.
 
 const AllocationForm = (props) => {
-  const {dispatch, remaining} = useContext(AppContext);
+  const {dispatch, remaining, currency} = useContext(AppContext);
+
+
 
   const [name, setName] = useState('');
   const [cost, setCost] = useState('');
   const [action, setAction] = useState('');
 
   const submitEvent = () => {
+
+      // Parse cost to integer
+      const costInt = parseInt(cost);
+
+      if (isNaN(costInt)) {
+          alert("Please enter a valid number.");
+          return;
+      }
+
       if (cost > remaining) {
           alert("The value cannot exceed remaining funds £"+remaining);
           setCost("");
@@ -19,8 +31,10 @@ const AllocationForm = (props) => {
 
       const expense = {
           name: name,
-          cost: parseInt(cost)
+          cost: costInt
       };
+
+
       if (action === "Reduce") {
         dispatch({
             type: 'RED_EXPENSE',
@@ -58,6 +72,7 @@ const AllocationForm = (props) => {
                     <option value="Reduce" name="Reduce">Reduce</option>
                 </select>
 
+                <span style={{ fontWeight: 'bold', marginLeft: '30px' }}>{currency}</span>
                 <input
                     required='required'
                     type='number'
@@ -65,7 +80,10 @@ const AllocationForm = (props) => {
                     value={cost}
                     style={{ marginLeft: '2rem' , size: 10}}
                     onChange={(event) => setCost(event.target.value)}>
+
+
                 </input>
+
 
                 <button className="btn btn-primary" onClick={submitEvent} style={{ marginLeft: '2rem' }}>
                     Save

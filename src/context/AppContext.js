@@ -10,8 +10,7 @@ export const AppReducer = (state, action) => {
             total_budget = state.expenses.reduce(
                 (previousExp, currentExp) => {
                     return previousExp + currentExp.cost
-                },0
-            );
+                },0);
             total_budget = total_budget + action.payload.cost;
             action.type = "DONE";
             if(total_budget <= state.budget) {
