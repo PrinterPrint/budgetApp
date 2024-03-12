@@ -5,7 +5,7 @@ import {AppContext} from '../context/AppContext';
 // Here, you are adding form tags, adding a label/input for name, cost and action field, and adding values for various departments.
 
 const AllocationForm = (props) => {
-  const {dispatch, remaining, currency} = useContext(AppContext);
+  const {dispatch, remaining, Currency} = useContext(AppContext);
 
 
 
@@ -24,7 +24,7 @@ const AllocationForm = (props) => {
       }
 
       if (cost > remaining) {
-          alert("The value cannot exceed remaining funds £"+remaining);
+          alert(`The value cannot exceed remaining funds  ${Currency} ` + remaining);
           setCost("");
           return;
       };
@@ -72,7 +72,7 @@ const AllocationForm = (props) => {
                     <option value="Reduce" name="Reduce">Reduce</option>
                 </select>
 
-                <span style={{ fontWeight: 'bold', marginLeft: '30px' }}>{currency}</span>
+                <span style={{ fontWeight: 'bold', marginLeft: '30px' }}>{Currency}</span>
                 <input
                     required='required'
                     type='number'

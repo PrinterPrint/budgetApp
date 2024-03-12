@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import Budget from "../components/Budget";
+
 
 // 5. The reducer - this is used to update the state, based on the action
 export const AppReducer = (state, action) => {
@@ -65,11 +65,25 @@ export const AppReducer = (state, action) => {
                 ...state,
             };
         case 'CHG_CURRENCY':
-            action.type = "DONE";
-            state.currency = action.payload;
+            //action.type = "DONE";
+            //state.currency = action.payload;
             return {
-                ...state
-            }
+                ...state,
+                Currency: action.payload
+            };
+
+        case 'DECREASE_EXPENSE':
+            const decreasedExpenses = state.expenses.map((expense) => {
+                if (expense.name === action.payload.name) {
+                    expense.cost = expense.cost - action.payload.cost; // Decrease the cost by the specified amount
+                }
+                return expense;
+            });
+            action.type = "DONE"; // Optional: Mark the action as done
+            return {
+                ...state,
+                expenses: decreasedExpenses,
+            };
 
         default:
             return state;
@@ -85,8 +99,9 @@ const initialState = {
         { id: "Sales", name: 'Sales', cost: 100 },
         { id: "Human Resource", name: 'Human Resource', cost: 100 },
         { id: "IT", name: 'IT', cost: 100 },
+        { id: "New", name: 'New department', cost: 0}
     ],
-    currency: '£'
+    Currency: '£'
 };
 
 // 2. Creates the context this is the thing our components import and use to get the state
@@ -113,7 +128,7 @@ export const AppProvider = (props) => {
                 budget: state.budget,
                 remaining: remaining,
                 dispatch,
-                currency: state.currency
+                Currency: state.Currency
             }}
         >
             {props.children}
